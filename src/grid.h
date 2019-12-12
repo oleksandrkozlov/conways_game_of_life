@@ -26,6 +26,8 @@ public:
 private:
     explicit Grid(const Size& size);
 
+    bool operator==(const Grid& other) const noexcept;
+
 public:
     auto getSize() const noexcept -> Size;
     void populate(const Coordinates& position) noexcept;

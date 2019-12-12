@@ -14,6 +14,8 @@ public:
     Cell() noexcept;
     explicit Cell(const Coordinates& position) noexcept;
 
+    bool operator==(const Cell& other) const noexcept;
+
     auto die() noexcept -> void;
     auto birth(const Coordinates& position) noexcept -> void;
     auto getState() const noexcept -> State;

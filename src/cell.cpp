@@ -16,6 +16,11 @@ Cell::Cell(const Coordinates& position) noexcept
 {
 }
 
+bool Cell::operator==(const Cell& other) const noexcept
+{
+    return (m_state == other.m_state) && (m_position == other.m_position);
+}
+
 auto Cell::birth(const Coordinates& position) noexcept -> void
 {
     assert(isDead());

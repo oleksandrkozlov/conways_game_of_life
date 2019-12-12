@@ -60,8 +60,8 @@ void Destiny::populate(Grid& grid, const Cell& cell) const noexcept
 
 void print(Grid& grid)
 {
-    std::cout << std::flush;
-    system("tput clear");
+
+    std::system("clear");
 
     const auto size = grid.getSize();
 
@@ -69,19 +69,23 @@ void print(Grid& grid)
         for (auto x = 0U; x < size.width; ++x) {
             auto cell = grid.getCell({ x, y });
             if (cell.isAlive()) {
-                std::cout << "\033[1;31m▮ \033[0m";
+                using namespace std::string_literals;
+                const auto reset = "\033[0m"s;
+                const auto red = "\033[1m\033[41m"s;
+                const auto square = "  ";
+                std::cout << red << square << reset;
             } else {
                 std::cout << ". ";
             }
         }
-        std::cout << std::endl;
+        std::cout << '\n';
     }
 
     using namespace std::chrono_literals;
-    std::this_thread::sleep_for(100ms);
+    std::this_thread::sleep_for(80ms);
 }
 
-void Destiny::tick(Grid& grid) noexcept
+auto Destiny::tick(Grid& grid) noexcept -> bool
 {
     print(grid);
 
@@ -107,7 +111,12 @@ void Destiny::tick(Grid& grid) noexcept
         }
     }
 
+    if (grid == gridNext)
+        return false;
+
     grid = gridNext;
+
+    return true;
 }
 
 } // namespace conlife

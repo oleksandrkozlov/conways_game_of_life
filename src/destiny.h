@@ -13,7 +13,7 @@ public:
     Grid createGrid(const Grid::Size& size) const;
     void populate(Grid& grid, const Cell& position) const noexcept;
 
-    void tick(Grid& grid) noexcept;
+    auto tick(Grid& grid) noexcept -> bool;
 };
 
 } // namespace conlife

@@ -11,6 +11,11 @@ Grid::Grid(const Grid::Size& size)
 {
 }
 
+bool Grid::operator==(const Grid& other) const noexcept
+{
+    return m_grid == other.m_grid;
+}
+
 auto Grid::getSize() const noexcept -> Grid::Size
 {
     return m_size;
