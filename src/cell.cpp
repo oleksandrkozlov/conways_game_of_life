@@ -5,60 +5,45 @@
 namespace conlife {
 
 Cell::Cell() noexcept
-    : m_state { State::Dead }
+    : m_isAlive { false }
     , m_position {}
 {
 }
 
-Cell::Cell(const Coordinates& position) noexcept
-    : m_state { State::Alive }
+Cell::Cell(const Position& position) noexcept
+    : m_isAlive { true }
     , m_position { position }
 {
 }
 
 bool Cell::operator==(const Cell& other) const noexcept
 {
-    return (m_state == other.m_state) && (m_position == other.m_position);
+    return (m_isAlive == other.m_isAlive) && (m_position == other.m_position);
 }
 
-auto Cell::birth(const Coordinates& position) noexcept -> void
+auto Cell::birth(const Position& position) noexcept -> void
 {
-    assert(isDead());
+    assert(!isAlive());
 
     m_position = position;
-    m_state = State::Alive;
+    m_isAlive = true;
 }
 
 auto Cell::die() noexcept -> void
 {
     assert(isAlive());
 
-    m_state = State::Dead;
-}
-
-auto Cell::getState() const noexcept -> Cell::State
-{
-    return m_state;
+    m_isAlive = false;
 }
 
 auto Cell::isAlive() const noexcept -> bool
 {
-    return m_state == State::Alive;
+    return m_isAlive;
 }
 
-auto Cell::isDead() const noexcept -> bool
-{
-    return m_state == State::Dead;
-}
-
-auto Cell::getPosition() const noexcept -> Coordinates
+auto Cell::getPosition() const noexcept -> Position
 {
     return m_position;
-}
-
-auto Cell::setPosition(const Coordinates& position) noexcept -> void
-{
-    m_position = position;
 }
 
 } // namespace conlife

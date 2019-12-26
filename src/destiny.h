@@ -1,19 +1,21 @@
 #pragma once
 
-#include "cell.h"
 #include "grid.h"
 
 namespace conlife {
 
-auto getNeighbourSize(Grid& grid, const Cell& cell) noexcept -> std::size_t;
+struct Position;
 
-class Destiny
-{
+class Destiny {
 public:
-    Grid createGrid(const Grid::Size& size) const;
-    void populate(Grid& grid, const Cell& position) const noexcept;
+    explicit Destiny(Grid grid) noexcept;
 
-    auto tick(Grid& grid) noexcept -> bool;
+    auto getNeighbourSize(const Position& position) const noexcept -> std::size_t;
+    auto tick() noexcept -> bool;
+    auto getGrid() const noexcept -> const Grid&;
+
+private:
+    Grid m_grid;
 };
 
 } // namespace conlife

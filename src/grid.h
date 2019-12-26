@@ -4,15 +4,13 @@
 #include <vector>
 
 #include "cell.h"
-#include "coordinates.h"
 
 namespace conlife {
 
+struct Position;
+
 class Grid
 {
-    friend class Destiny;
-
-public:
 private:
     using Column = std::vector<Cell>;
     using Row = std::vector<Column>;
@@ -23,16 +21,14 @@ public:
         std::size_t height = 0U;
     };
 
-private:
-    explicit Grid(const Size& size);
+    explicit Grid(Size size);
 
-    bool operator==(const Grid& other) const noexcept;
+    auto operator==(const Grid& other) const noexcept -> bool;
 
-public:
     auto getSize() const noexcept -> Size;
-    void populate(const Coordinates& position) noexcept;
-    void unpopulate(const Coordinates& position) noexcept;
-    Cell getCell(const Coordinates& position) const noexcept;
+    auto populate(const Position& position) noexcept -> void;
+    auto unpopulate(const Position& position) noexcept -> void;
+    auto getCell(const Position& position) const noexcept -> Cell;
 
 private:
     Size m_size;

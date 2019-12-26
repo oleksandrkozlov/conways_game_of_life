@@ -4,9 +4,8 @@
 
 namespace conlife {
 
-struct Coordinates
-{
-    bool operator==(const Coordinates& other) const noexcept
+struct Position {
+    auto operator==(const Position& other) const noexcept -> bool
     {
         return (x == other.x) && (y == other.y);
     }

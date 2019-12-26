@@ -1,9 +1,9 @@
 #include "destiny.h"
 #include "grid.h"
+#include "position.h"
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) noexcept
 {
-    auto destiny = conlife::Destiny {};
 
     // glider
     //auto grid = destiny.createGrid({ 100U, 60U });
@@ -14,16 +14,18 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) noexcept
     //destiny.populate(grid, conlife::Cell { { 2U, 2U } });
 
     // diehard
-    auto grid = destiny.createGrid({ 23U, 23U });
-    destiny.populate(grid, conlife::Cell { { 8U, 5U } });
-    destiny.populate(grid, conlife::Cell { { 9U, 5U } });
-    destiny.populate(grid, conlife::Cell { { 9U, 6U } });
-    destiny.populate(grid, conlife::Cell { { 14U, 4U } });
-    destiny.populate(grid, conlife::Cell { { 13U, 6U } });
-    destiny.populate(grid, conlife::Cell { { 14U, 6U } });
-    destiny.populate(grid, conlife::Cell { { 15U, 6U } });
+    auto grid = conlife::Grid { { 23U, 23U } };
+    grid.populate({ 8U, 5U });
+    grid.populate({ 9U, 5U });
+    grid.populate({ 9U, 6U });
+    grid.populate({ 14U, 4U });
+    grid.populate({ 13U, 6U });
+    grid.populate({ 14U, 6U });
+    grid.populate({ 15U, 6U });
 
-    while (destiny.tick(grid))
+    auto destiny = conlife::Destiny { std::move(grid) };
+
+    while (destiny.tick())
         ;
 
     return 0;

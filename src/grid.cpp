@@ -1,17 +1,17 @@
 #include "grid.h"
+#include "position.h"
 
 #include <cassert>
-#include <iostream>
 
 namespace conlife {
 
-Grid::Grid(const Grid::Size& size)
-    : m_size { size }
+Grid::Grid(Grid::Size size)
+    : m_size { std::move(size) }
     , m_grid { Row(size.height, Column(size.width)) }
 {
 }
 
-bool Grid::operator==(const Grid& other) const noexcept
+auto Grid::operator==(const Grid& other) const noexcept -> bool
 {
     return m_grid == other.m_grid;
 }
@@ -21,7 +21,7 @@ auto Grid::getSize() const noexcept -> Grid::Size
     return m_size;
 }
 
-void Grid::populate(const Coordinates& position) noexcept
+auto Grid::populate(const Position& position) noexcept -> void
 {
     assert(position.y < std::size(m_grid));
     assert(position.x < std::size(m_grid.at(position.y)));
@@ -29,7 +29,7 @@ void Grid::populate(const Coordinates& position) noexcept
     m_grid.at(position.y).at(position.x).birth(position);
 }
 
-void Grid::unpopulate(const Coordinates& position) noexcept
+auto Grid::unpopulate(const Position& position) noexcept -> void
 {
     assert(position.y < std::size(m_grid));
     assert(position.x < std::size(m_grid.at(position.y)));
@@ -37,7 +37,7 @@ void Grid::unpopulate(const Coordinates& position) noexcept
     m_grid.at(position.y).at(position.x).die();
 }
 
-Cell Grid::getCell(const Coordinates& position) const noexcept
+auto Grid::getCell(const Position& position) const noexcept -> Cell
 {
     assert(position.y < std::size(m_grid));
     assert(position.x < std::size(m_grid.at(position.y)));
