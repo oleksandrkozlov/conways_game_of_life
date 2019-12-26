@@ -1,45 +1,16 @@
 #include "destiny.h"
 #include "cell.h"
+#include "grid_observer.h"
 #include "position.h"
-
-#include <chrono>
-#include <cstddef>
-#include <cstdlib>
-#include <iostream>
-#include <string>
-#include <thread>
 
 namespace conlife {
 
-auto print(Grid& grid) -> void
-{
-    std::system("clear");
-
-    const auto size = grid.getSize();
-
-    for (auto y = 0U; y < size.height; ++y) {
-        for (auto x = 0U; x < size.width; ++x) {
-            auto cell = grid.getCell({ x, y });
-            if (cell.isAlive()) {
-                using namespace std::string_literals;
-                const auto reset = "\033[0m"s;
-                const auto red = "\033[1m\033[41m"s;
-                const auto square = "  ";
-                std::cout << red << square << reset;
-            } else {
-                std::cout << ". ";
-            }
-        }
-        std::cout << '\n';
-    }
-
-    using namespace std::chrono_literals;
-    std::this_thread::sleep_for(80ms);
-}
-
-Destiny::Destiny(Grid grid) noexcept
+Destiny::Destiny(Grid grid, GridObserver* observer) noexcept
     : m_grid { std::move(grid) }
+    , m_gridObserver { observer }
 {
+    if (m_gridObserver)
+        m_gridObserver->onGridChanged(m_grid);
 }
 
 auto Destiny::getNeighbourSize(const Position& position) const noexcept -> std::size_t
@@ -84,8 +55,6 @@ auto Destiny::getNeighbourSize(const Position& position) const noexcept -> std::
 
 auto Destiny::tick() noexcept -> bool
 {
-    print(m_grid);
-
     auto nextGrid = m_grid;
 
     for (auto y = 0U; y < nextGrid.getSize().height; ++y) {
@@ -106,6 +75,9 @@ auto Destiny::tick() noexcept -> bool
         return false;
 
     m_grid = nextGrid;
+
+    if (m_gridObserver)
+        m_gridObserver->onGridChanged(m_grid);
 
     return true;
 }

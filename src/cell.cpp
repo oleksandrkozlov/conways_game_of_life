@@ -33,6 +33,7 @@ auto Cell::die() noexcept -> void
 {
     assert(isAlive());
 
+    m_position = Position {};
     m_isAlive = false;
 }
 

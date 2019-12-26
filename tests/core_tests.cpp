@@ -88,3 +88,35 @@ TEST(Core, getNeighbourSizeThree)
     ASSERT_EQ(destiny.getNeighbourSize(conlife::Position { 1U, 2U }), 3U);
     ASSERT_EQ(destiny.getNeighbourSize(conlife::Position { 3U, 2U }), 3U);
 }
+
+TEST(Core, GridChanged)
+{
+    auto grid = conlife::Grid { { 5U, 5U } };
+    grid.populate({ 2U, 1U });
+    grid.populate({ 2U, 2U });
+    grid.populate({ 2U, 3U });
+
+    auto destiny = conlife::Destiny { std::move(grid) };
+
+    grid = conlife::Grid { { 5U, 5U } };
+    grid.populate({ 1U, 2U });
+    grid.populate({ 2U, 2U });
+    grid.populate({ 3U, 2U });
+
+    ASSERT_TRUE(destiny.tick());
+    ASSERT_EQ(destiny.getGrid(), grid);
+}
+
+TEST(Core, GridNotChanged)
+{
+    auto grid = conlife::Grid { { 4U, 4U } };
+    grid.populate({ 1U, 1U });
+    grid.populate({ 1U, 2U });
+    grid.populate({ 2U, 1U });
+    grid.populate({ 2U, 2U });
+
+    auto destiny = conlife::Destiny { grid };
+
+    ASSERT_FALSE(destiny.tick());
+    ASSERT_EQ(destiny.getGrid(), grid);
+}

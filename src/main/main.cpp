@@ -1,5 +1,6 @@
 #include "destiny.h"
 #include "grid.h"
+#include "grid_presenter.h"
 #include "position.h"
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) noexcept
@@ -14,6 +15,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) noexcept
     //destiny.populate(grid, conlife::Cell { { 2U, 2U } });
 
     // diehard
+
     auto grid = conlife::Grid { { 23U, 23U } };
     grid.populate({ 8U, 5U });
     grid.populate({ 9U, 5U });
@@ -23,7 +25,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) noexcept
     grid.populate({ 14U, 6U });
     grid.populate({ 15U, 6U });
 
-    auto destiny = conlife::Destiny { std::move(grid) };
+    auto gridPresenter = conlife::GridPresenter {};
+    auto destiny = conlife::Destiny { std::move(grid), &gridPresenter };
 
     while (destiny.tick())
         ;
