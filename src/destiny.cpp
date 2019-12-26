@@ -4,13 +4,18 @@
 #include "position.h"
 
 namespace conlife {
+namespace {
+
+    auto toData(const Grid& grid) -> GridData;
+
+} // namespace
 
 Destiny::Destiny(Grid grid, GridObserver* observer) noexcept
     : m_grid { std::move(grid) }
     , m_gridObserver { observer }
 {
     if (m_gridObserver)
-        m_gridObserver->onGridChanged(m_grid);
+        m_gridObserver->onGridChanged(toData(m_grid));
 }
 
 auto Destiny::getNeighbourSize(const Position& position) const noexcept -> std::size_t
@@ -77,7 +82,7 @@ auto Destiny::tick() noexcept -> bool
     m_grid = nextGrid;
 
     if (m_gridObserver)
-        m_gridObserver->onGridChanged(m_grid);
+        m_gridObserver->onGridChanged(toData(m_grid));
 
     return true;
 }
@@ -87,4 +92,25 @@ auto Destiny::getGrid() const noexcept -> const Grid&
     return m_grid;
 }
 
+namespace {
+
+    auto toData(const Grid& grid) -> GridData
+    {
+        auto result = GridData {};
+
+        for (auto y = 0U; y < grid.getSize().height; ++y) {
+            auto row = std::vector<bool> {};
+            for (auto x = 0U; x < grid.getSize().width; ++x) {
+                if (grid.getCell({ x, y }).isAlive())
+                    row.push_back(true);
+                else
+                    row.push_back(false);
+            }
+            result.push_back(row);
+        }
+
+        return result;
+    }
+
+} // namespace
 } // namespace conlife

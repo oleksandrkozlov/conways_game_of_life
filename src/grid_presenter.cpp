@@ -9,27 +9,24 @@
 namespace conlife {
 namespace {
 
-    auto printGrid(const Grid& grid) -> void;
+    auto printGrid(const GridData& grid) -> void;
 
 } // namespace
 
-void GridPresenter::onGridChanged(const Grid& grid)
+void GridPresenter::onGridChanged(const GridData& grid)
 {
     printGrid(grid);
 }
 
 namespace {
 
-    auto printGrid(const Grid& grid) -> void
+    auto printGrid(const GridData& grid) -> void
     {
         std::system("clear");
 
-        const auto size = grid.getSize();
-
-        for (auto y = 0U; y < size.height; ++y) {
-            for (auto x = 0U; x < size.width; ++x) {
-                auto cell = grid.getCell({ x, y });
-                if (cell.isAlive()) {
+        for (const auto& column : grid) {
+            for (auto cell : column) {
+                if (cell) {
                     using namespace std::string_literals;
                     const auto reset = "\033[0m"s;
                     const auto red = "\033[1m\033[41m"s;

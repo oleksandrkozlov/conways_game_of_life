@@ -1,8 +1,10 @@
 #pragma once
 
+#include <vector>
+
 namespace conlife {
 
-class Grid;
+using GridData = std::vector<std::vector<bool>>;
 
 class GridObserver
 {
@@ -17,7 +19,7 @@ protected:
 public:
     virtual ~GridObserver() = default;
 
-    virtual void onGridChanged(const Grid& grid) = 0;
+    virtual void onGridChanged(const GridData& grid) = 0;
 };
 
 } // namespace conlife
