@@ -7,15 +7,14 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv) noexcept
 {
 
     // glider
-    //auto grid = destiny.createGrid({ 100U, 60U });
-    //destiny.populate(grid, conlife::Cell { { 1U, 0U } });
-    //destiny.populate(grid, conlife::Cell { { 2U, 1U } });
-    //destiny.populate(grid, conlife::Cell { { 0U, 2U } });
-    //destiny.populate(grid, conlife::Cell { { 1U, 2U } });
-    //destiny.populate(grid, conlife::Cell { { 2U, 2U } });
+    //auto grid = conlife::Grid({ 100U, 40U });
+    //grid.populate({ 1U, 0U });
+    //grid.populate({ 2U, 1U });
+    //grid.populate({ 0U, 2U });
+    //grid.populate({ 1U, 2U });
+    //grid.populate({ 2U, 2U });
 
     // diehard
-
     auto grid = conlife::Grid { { 23U, 23U } };
     grid.populate({ 8U, 5U });
     grid.populate({ 9U, 5U });
